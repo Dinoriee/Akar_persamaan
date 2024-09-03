@@ -5,7 +5,7 @@ using namespace std;
 
 std::function<double(double)> akar() {
     cout << "Pilih fungsi non linear:\n";
-    cout << "1. Bentuk-bentuk persamaan polinomial: a0 + a1 * x + a2 * x^2 + a3 * x^3 + … + an * x\n";
+    cout << "1. Bentuk-bentuk persamaan polinomial: a0 + a1 * x + a2 * x^2 + a3 * x^3 + â€¦ + an * x\n";
     cout << "2. Bentuk-bentuk persamaan transcedental: sin(x), cos(x), tan(x), exp(x), log(x)\n";
     cout << "3. Bentuk persamaan kuadrat: ax^2 + bx + c\n";
     cout << "Masukkan angka yang valid (1-3): ";
@@ -18,7 +18,7 @@ std::function<double(double)> akar() {
     switch (pilihan) {
         case 1:
 
-            cout << "Masukkan nilai a, b, c untuk persamaan polinomial: ";
+            cout << "Masukkan nilai a, b, c (satu persatu) untuk persamaan polinomial: ";
             cin >> a >> b >> c;
             int p;
             cout << "Masukkan nilai pangkat: ";
@@ -27,13 +27,13 @@ std::function<double(double)> akar() {
                 return a * pow(x, p) + b * x + c;
             };
         case 2:
-            cout << "Masukkan nilai a, b, c untuk persamaan sinusoidal: ";
+            cout << "Masukkan nilai a, b, c (satu persatu) untuk persamaan sinusoidal: ";
             cin >> a >> b >> c;
             return [a, b, c](double x) {
                 return a * sin(b * x) + c;
             };
         case 3:
-            cout << "Masukkan nilai a, b, c untuk persamaan kuadrat: ";
+            cout << "Masukkan nilai a, b, c (satu persatu) untuk persamaan kuadrat: ";
             cin >> a >> b >> c;
             return [a, b, c](double x) {
                 return a * pow(x, 2) + b * x + c;
