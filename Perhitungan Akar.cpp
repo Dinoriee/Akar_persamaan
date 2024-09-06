@@ -17,8 +17,7 @@ std::function<double(double)> akar() {
 
     switch (pilihan) {
         case 1:
-
-            cout << "Masukkan nilai a, b, c (satu persatu) untuk persamaan polinomial: ";
+            cout << "Masukkan nilai a, b, c untuk persamaan polinomial (satu-persatu!): ";
             cin >> a >> b >> c;
             int p;
             cout << "Masukkan nilai pangkat: ";
@@ -26,41 +25,77 @@ std::function<double(double)> akar() {
             return [a, b, c, p](double x) {
                 return a * pow(x, p) + b * x + c;
             };
+
         case 2:
-            cout << "Masukkan nilai a, b, c (satu persatu) untuk persamaan sinusoidal: ";
-            cin >> a >> b >> c;
-            return [a, b, c](double x) {
-                return a * sin(b * x) + c;
-            };
+            int sinusoidal;
+            cout << "Pilih jenis persamaan sinusoidal:\n1. Sin\n2. Cos\n3. Tan\n4. Eksponensial\n5. Logaritma\n";
+            cin >> sinusoidal;
+            switch (sinusoidal) {
+                case 1:
+                    cout << "Masukkan nilai a, b, c untuk persamaan sinusoidal (satu-persatu!): ";
+                    cin >> a >> b >> c;
+                    return [a, b, c](double x) {
+                        return a * sin(b * x) + c;
+                    };
+                case 2:
+                    cout << "Masukkan nilai a, b, c untuk persamaan sinusoidal (satu-persatu!): ";
+                    cin >> a >> b >> c;
+                    return [a, b, c](double x) {
+                        return a * cos(b * x) + c;
+                    };
+                case 3:
+                    cout << "Masukkan nilai a, b, c untuk persamaan sinusoidal (satu-persatu!): ";
+                    cin >> a >> b >> c;
+                    return [a, b, c](double x) {
+                        return a * tan(b * x) + c;
+                    };
+                case 4:
+                    cout << "Masukkan nilai a, b, c untuk persamaan eksponensial (satu-persatu!): ";
+                    cin >> a >> b >> c;
+                    return [a, b, c](double x) {
+                        return a * exp(b * x) + c;
+                    };
+                case 5:
+                    cout << "Masukkan nilai a, b, c untuk persamaan logaritma (satu-persatu!): ";
+                    cin >> a >> b >> c;
+                    return [a, b, c](double x) {
+                        return a * log(b * x) + c;
+                    };
+                default:
+                    cout << "Masukkan nilai yang valid!\n";
+                    return [](double x) { return x; };
+            }
+
         case 3:
-            cout << "Masukkan nilai a, b, c (satu persatu) untuk persamaan kuadrat: ";
+            cout << "Masukkan nilai a, b, c untuk persamaan kuadrat: ";
             cin >> a >> b >> c;
             return [a, b, c](double x) {
                 return a * pow(x, 2) + b * x + c;
             };
+
         default:
             cout << "Pilihan tidak valid. Menggunakan fungsi default f(x) = x.\n";
             return [](double x) { return x; };
     }
 }
 
-void tabel(double range_awal, double range_akhir, double step , std::function<double(double)> persamaan) {
-    double error = persamaan(range_awal);
+void tabel(double range_awal, double range_akhir, double step, std::function<double(double)> persamaan) {
+    double error = abs(persamaan(range_awal));
     double x = range_awal;
-    while(range_awal <= range_akhir) {
-        cout << "x: " << range_awal;
-        cout << " f(x): " << persamaan(range_awal) << endl;
-        if (abs(persamaan(range_awal)) < error ) {
-            error=persamaan(range_awal);
-            x=range_awal;
-        }
-        else{
+
+    while (range_awal <= range_akhir) {
+        double fx = persamaan(range_awal);
+        cout << "x: " << range_awal << "  f(x): " << fx << endl;
+
+        if (abs(fx) < error) {
+            error = abs(fx);
+            x = range_awal;
         }
 
         range_awal += step;
-
     }
-    cout << "Akar x:" << x << " Memiliki error terkecil yakni: " << error;
+
+    cout << "Akar x: " << x << " memiliki error terkecil yakni: " << error << endl;
 }
 
 int main() {
@@ -78,4 +113,3 @@ int main() {
 
     return 0;
 }
-
