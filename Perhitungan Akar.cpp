@@ -1,7 +1,133 @@
 #include <iostream>
 #include <cmath>
 #include <functional>
+#include <iomanip>
+
 using namespace std;
+
+
+void tabel(double range_awal, double range_akhir, double step, std::function<double(double)> persamaan) {
+    double error = abs(persamaan(range_awal));
+    double x = range_awal;
+
+    while (range_awal <= range_akhir) {
+        double fx = persamaan(range_awal);
+        cout << "x: " << range_awal << "  f(x): " << fx << endl;
+
+        if (abs(fx) < error) {
+            error = abs(fx);
+            x = range_awal;
+        }
+
+        range_awal += step;
+    }
+
+    cout << "Akar x: " << x << " memiliki error terkecil yakni: " << error << endl;
+}
+
+void bisection(double range_awal, double range_akhir, double tol, int maxIter, std::function<double(double)> persamaan) {
+    double c;
+    if (persamaan(range_awal) * persamaan(range_akhir) >= 0) {
+        cout << "Tidak ada akar di interval [" << range_awal << ", " << range_akhir << "]" << endl;
+        return;
+    }
+
+    cout << "Iterasi\t\ta\t\tb\t\tc\t\tf(c)\t\tError" << endl;
+    for (int iter = 1; iter <= maxIter; iter++) {
+        c = (range_awal + range_akhir) / 2;
+        double error = fabs((persamaan(range_awal) - persamaan(range_akhir)) / 2);
+
+        cout << fixed << setprecision(6);
+        cout << iter << "\t\t" << range_awal << "\t" << range_akhir << "\t" << c << "\t" << persamaan(c) << "\t" << error << endl;
+
+        if (abs(persamaan(c)) < tol || error < tol) {
+            cout << "Akar ditemukan pada x = " << c << " dengan toleransi " << tol << endl;
+            return;
+        }
+
+        if (persamaan(c) * persamaan(range_awal) < 0) {
+            range_akhir = c;
+        } else {
+            range_awal = c;
+        }
+    }
+
+    cout << "Iterasi maksimal tercapai, akar mendekati x = " << c << endl;
+}
+
+void falsi(double range_awal, double range_akhir, double tol, int maxIter, std::function<double(double)> persamaan) {
+    double c;
+    if (persamaan(range_awal) * persamaan(range_akhir) >= 0) {
+        cout << "Tidak ada akar di interval [" << range_awal << ", " << range_akhir << "]" << endl;
+        return;
+    }
+
+    cout << "Iterasi\t\ta\t\tb\t\tf(a)\t\tf(b)\t\tc\t2\tf(c)" << endl;
+    for (int iter = 1; iter <= maxIter; iter++) {
+        c = range_awal - persamaan(range_awal) * fabs(((range_akhir-range_awal) / (persamaan(range_akhir) - persamaan(range_awal))));
+        double error = fabs(persamaan(c));
+
+        cout << fixed << setprecision(6);
+        cout << iter << "\t\t" << range_awal << "\t" << range_akhir << "\t" << persamaan(range_awal) << "\t" << persamaan(range_akhir) << "\t" << c << "\t" << persamaan(c) << endl;
+
+        if (abs(persamaan(c)) < tol || error < tol) {
+            cout << "Akar ditemukan pada x = " << c << " dengan toleransi " << tol << endl;
+            return;
+        }
+
+        if (persamaan(c) * persamaan(range_awal) < 0) {
+            range_akhir = c;
+        } else {
+            range_awal = c;
+        }
+    }
+
+    cout << "Iterasi maksimal tercapai, akar mendekati x = " << c << endl;
+}
+
+void metode(double range_awal, double range_akhir, std::function<double(double)> persamaan){
+    int rumus;
+    cout << "Pilih metode yang ingin digunakan (1.Tabel, 2.Bisection, 3. Falsi): ";
+    cin >> rumus;
+    switch(rumus){
+        case 1:{
+            double step;
+            cout << "Masukkan Step: ";
+            cin >> step;
+            tabel(range_awal, range_akhir, step, persamaan);
+            break;
+        }
+
+        case 2:{
+            double tol;
+            int maxIter;
+            cout << "Masukkan nilai toleransi yang diinginkan: ";
+            cin >> tol;
+            cout << "Masukkan maksimal iterasi yang dilakukan: ";
+            cin >> maxIter;
+
+            bisection(range_awal, range_akhir, tol, maxIter, persamaan);
+            break;
+        }
+
+        case 3:{
+            double tol;
+            int maxIter;
+            cout << "Masukkan nilai toleransi yang diinginkan: ";
+            cin >> tol;
+            cout << "Masukkan maksimal iterasi yang dilakukan: ";
+            cin >> maxIter;
+
+            falsi(range_awal, range_akhir, tol, maxIter, persamaan);
+            break;
+        }
+
+        default:
+            cout << "Metode tidak valid." << endl;
+            break;
+    }
+}
+
 
 std::function<double(double)> akar() {
     cout << "Pilih fungsi non linear:\n";
@@ -67,7 +193,7 @@ std::function<double(double)> akar() {
             }
 
         case 3:
-            cout << "Masukkan nilai a, b, c untuk persamaan kuadrat: ";
+            cout << "Masukkan nilai a, b, c untuk persamaan kuadrat: (satu-persatu!) ";
             cin >> a >> b >> c;
             return [a, b, c](double x) {
                 return a * pow(x, 2) + b * x + c;
@@ -75,41 +201,24 @@ std::function<double(double)> akar() {
 
         default:
             cout << "Pilihan tidak valid. Menggunakan fungsi default f(x) = x.\n";
+            break;
             return [](double x) { return x; };
     }
 }
 
-void tabel(double range_awal, double range_akhir, double step, std::function<double(double)> persamaan) {
-    double error = abs(persamaan(range_awal));
-    double x = range_awal;
-
-    while (range_awal <= range_akhir) {
-        double fx = persamaan(range_awal);
-        cout << "x: " << range_awal << "  f(x): " << fx << endl;
-
-        if (abs(fx) < error) {
-            error = abs(fx);
-            x = range_awal;
-        }
-
-        range_awal += step;
-    }
-
-    cout << "Akar x: " << x << " memiliki error terkecil yakni: " << error << endl;
-}
 
 int main() {
-    double range_awal, range_akhir, step;
+    double range_awal, range_akhir;
     cout << "Masukkan nilai range awal: ";
     cin >> range_awal;
     cout << "Masukkan nilai range akhir: ";
     cin >> range_akhir;
-    cout << "Masukkan Step: ";
-    cin >> step;
+
+
 
     std::function<double(double)> persamaan = akar();
 
-    tabel(range_awal, range_akhir, step, persamaan);
+    metode(range_awal, range_akhir, persamaan);
 
     return 0;
 }
