@@ -62,7 +62,7 @@ void falsi(double range_awal, double range_akhir, double tol, int maxIter, std::
         return;
     }
 
-    cout << "Iterasi\t\ta\t\tb\t\tf(a)\t\tf(b)\t\tc\t2\tf(c)" << endl;
+    cout << "Iterasi\t\ta\t\tb\t\tf(a)\t\tf(b)\t\tc\t\tf(c)" << endl;
     for (int iter = 1; iter <= maxIter; iter++) {
         c = range_awal - persamaan(range_awal) * fabs(((range_akhir-range_awal) / (persamaan(range_akhir) - persamaan(range_awal))));
         double error = fabs(persamaan(c));
@@ -143,8 +143,13 @@ std::function<double(double)> akar() {
 
     switch (pilihan) {
         case 1:
-            cout << "Masukkan nilai a, b, c untuk persamaan polinomial (satu-persatu!): ";
-            cin >> a >> b >> c;
+            cout << "Masukkan nilai a, b, c untuk persamaan polinomial (satu-persatu!): " << endl;
+            cout << "Masukkan nilai a: ";
+            cin >> a;
+            cout << "Masukkan nilai b: ";
+            cin >> b;
+            cout <<"Masukkan nilai c: ";
+            cin >> c;
             int p;
             cout << "Masukkan nilai pangkat: ";
             cin >> p;
@@ -158,32 +163,57 @@ std::function<double(double)> akar() {
             cin >> sinusoidal;
             switch (sinusoidal) {
                 case 1:
-                    cout << "Masukkan nilai a, b, c untuk persamaan sinusoidal (satu-persatu!): ";
-                    cin >> a >> b >> c;
+                    cout << "Masukkan nilai a, b, c untuk persamaan polinomial (satu-persatu!): " << endl;
+                    cout << "Masukkan nilai a: ";
+                    cin >> a;
+                    cout <<"Masukkan nilai b: ";
+                    cin >> b;
+                    cout <<"Masukkan nilai c: ";
+                    cin >> c;
                     return [a, b, c](double x) {
                         return a * sin(b * x) + c;
                     };
                 case 2:
-                    cout << "Masukkan nilai a, b, c untuk persamaan sinusoidal (satu-persatu!): ";
-                    cin >> a >> b >> c;
+                    cout << "Masukkan nilai a, b, c untuk persamaan polinomial (satu-persatu!): " << endl;
+                    cout << "Masukkan nilai a: ";
+                    cin >> a;
+                    cout <<"Masukkan nilai b: ";
+                    cin >> b;
+                    cout <<"Masukkan nilai c: ";
+                    cin >> c;
                     return [a, b, c](double x) {
                         return a * cos(b * x) + c;
                     };
                 case 3:
-                    cout << "Masukkan nilai a, b, c untuk persamaan sinusoidal (satu-persatu!): ";
-                    cin >> a >> b >> c;
+                    cout << "Masukkan nilai a, b, c untuk persamaan polinomial (satu-persatu!): " << endl;
+                    cout << "Masukkan nilai a: ";
+                    cin >> a;
+                    cout <<"Masukkan nilai b: ";
+                    cin >> b;
+                    cout <<"Masukkan nilai c: ";
+                    cin >> c;
                     return [a, b, c](double x) {
                         return a * tan(b * x) + c;
                     };
                 case 4:
-                    cout << "Masukkan nilai a, b, c untuk persamaan eksponensial (satu-persatu!): ";
-                    cin >> a >> b >> c;
+                    cout << "Masukkan nilai a, b, c untuk persamaan polinomial (satu-persatu!): " << endl;
+                    cout << "Masukkan nilai a: ";
+                    cin >> a;
+                    cout <<"Masukkan nilai b: ";
+                    cin >> b;
+                    cout <<"Masukkan nilai c: ";
+                    cin >> c;
                     return [a, b, c](double x) {
                         return a * exp(b * x) + c;
                     };
                 case 5:
-                    cout << "Masukkan nilai a, b, c untuk persamaan logaritma (satu-persatu!): ";
-                    cin >> a >> b >> c;
+                    cout << "Masukkan nilai a, b, c untuk persamaan polinomial (satu-persatu!): " << endl;
+                    cout << "Masukkan nilai a: ";
+                    cin >> a;
+                    cout <<"Masukkan nilai b: ";
+                    cin >> b;
+                    cout <<"Masukkan nilai c: ";
+                    cin >> c;
                     return [a, b, c](double x) {
                         return a * log(b * x) + c;
                     };
@@ -193,8 +223,13 @@ std::function<double(double)> akar() {
             }
 
         case 3:
-            cout << "Masukkan nilai a, b, c untuk persamaan kuadrat: (satu-persatu!) ";
-            cin >> a >> b >> c;
+            cout << "Masukkan nilai a, b, c untuk persamaan polinomial (satu-persatu!): " << endl;
+            cout << "Masukkan nilai a: ";
+            cin >> a;
+            cout << "Masukkan nilai b: ";
+            cin >> b;
+            cout << "Masukkan nilai c: ";
+            cin >> c;
             return [a, b, c](double x) {
                 return a * pow(x, 2) + b * x + c;
             };
